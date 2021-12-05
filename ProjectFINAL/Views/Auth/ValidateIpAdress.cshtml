@@ -1,0 +1,124 @@
+﻿@model Project.Entity.User
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Giriş Yap</title>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/Content/AdminLTE/plugins/fontawesome-free/css/all.min.css">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="~/Content/AdminLTE/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/Content/AdminLTE/dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition login-page">
+    <div class="login-box">
+        <div class="login-logo">
+            <b>UKSS</b>Panel
+        </div>
+        <!-- /.login-logo -->
+        <div class="card">
+            <div class="card-body login-card-body">
+                <label class="login-box-msg">Erişim sağlamak için güvenlik sorusu cevabınızı giriniz.</label>
+
+                <form action="/Auth/ValidateIpAdress" method="post">
+                    <br />
+                    @Html.HiddenFor(x=>x.Id)
+                    <p class="login-box-msg font-weight-bold">@Html.DisplayFor(x => x.SecurityQuestion)</p>
+                    <div class="input-group mb-3">
+
+                        
+                        <input type="text" placeholder="Güvenlik sorusuna cevabınız." class="form-control" name="securityAnswer" id="securityAnswer" />
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="login-box-msg text-red">Eğer güvenlik sorusu cevabınızı unutursanız. Panele <b>erişemezsiniz.</b></p>
+
+
+                    <div class="row">
+                        <div class="col-8">
+
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-4">
+                            <button type="submit" class="btn btn-primary btn-block">Onayla</button>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                </form>
+
+                <!-- /.social-auth-links -->
+
+            </div>
+            <!-- /.login-card-body -->
+        </div>
+    </div>
+    <!-- /.login-box -->
+    <!-- jQuery -->
+    <script src="~/Content/AdminLTE/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="~/Content/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/Content/AdminLTE/dist/js/adminlte.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+</html>
+@if (ViewBag.ErrMsg != null)
+{
+    <script>
+            Swal.fire({
+                            title: 'Hoop!',
+                text: '@ViewBag.ErrMsg',
+                icon: 'error',
+                confirmButtonText: 'Ah be abi',
+                html: '@ViewBag.ErrMsg'
+            })
+    </script>
+}
+@if (ViewBag.Success != null)
+{
+    <script>
+            Swal.fire({
+                title: 'Başarılı',
+                text: '@ViewBag.Success',
+                icon: 'success',
+                confirmButtonText: 'Güzel',
+                html: '@ViewBag.Success'
+            })
+    </script>
+}
+@if (TempData["Success"] != null)
+{
+    <script>
+            Swal.fire({
+                title: 'Başarılı',
+                text: '@TempData["Success"].ToString()',
+                icon: 'success',
+                confirmButtonText: 'Güzel',
+                html: '@TempData["Success"].ToString()'
+            })
+    </script>
+}
+@if (TempData["ErrMsg"] != null)
+{
+    <script>
+            Swal.fire({
+                title: 'Hoop!',
+                text: '@TempData["ErrMsg"].ToString()',
+                icon: 'error',
+                confirmButtonText: 'Ah be abi',
+                html: '@TempData["ErrMsg"].ToString()'
+            })
+    </script>
+}
