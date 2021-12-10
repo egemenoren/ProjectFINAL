@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace Project.Data.Repository
 {
-    public class HumidityRateRepository:GenericRepository<HumidityHistory>
+    public class HumidityRateRepository : GenericRepository<HumidityHistory>
     {
-
-        public HumidityHistory GetLastDataByParameter(Expression<Func<HumidityHistory,bool>> filter = null)
+        public HumidityHistory GetLastDataByParameter(Expression<Func<HumidityHistory, bool>> filter = null)
         {
-            var result = _dbSet.Where(filter).OrderByDescending(x => x.CreatedTime).First();
-            return result;
+            return _dbSet.Where(filter).OrderByDescending(x => x.CreatedTime).First();
         }
+
+
     }
 }

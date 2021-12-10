@@ -40,11 +40,12 @@ namespace Project.Business
             {
                 var entity = _repoHumidity.GetLastDataByParameter(x=>x.PlantId == plantId);
                 return new ServiceResult<HumidityHistory>(entity);
-            }
+            }            
             catch(Exception ex)
             {
                 return new ServiceResult<HumidityHistory>(ServiceResultCode.Generic, ex.Message);
             }
+            
         }
     }
 }

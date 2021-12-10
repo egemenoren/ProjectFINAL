@@ -2383,6 +2383,7 @@
     <Content Include="Content\AdminLTE\plugins\summernote\summernote.js.map" />
     <Content Include="Content\AdminLTE\plugins\summernote\summernote.min.js.map" />
     <Content Include="Content\AdminLTE\plugins\toastr\toastr.js.map" />
+    <Content Include="ClassDiagram1.cd" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

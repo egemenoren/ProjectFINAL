@@ -20,6 +20,7 @@ namespace Project.Data.Repository
             _context = new ProjectContext();
             _dbSet = _context.Set<T>();
         }
+
         public IEnumerable<T> GetAll(Expression<Func<T, bool>> Filter = null)
         {
             if (Filter != null)

@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Project.Entity
 {
-    public class HumidityHistory:BasePlantDataEntity
+    public class BasePlantDataEntity:BaseEntity
     {
-        public double HumidityRate { get; set; }
-        public double Temperature { get; set; }
+        public int PlantId { get; set; }
     }
 }
