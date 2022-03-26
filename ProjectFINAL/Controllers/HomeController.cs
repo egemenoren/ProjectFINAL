@@ -16,12 +16,12 @@ namespace ProjectFINAL.Controllers
         {
             userManager = new UserManager();
         }
-        [Authorize]
+       
         public ActionResult Index()
         {
             return View();
         }
-        [Authorize]
+    
         public ActionResult MyPlants()
         {
             return View();

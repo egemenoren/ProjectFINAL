@@ -127,6 +127,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\API\ApiController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -2383,7 +2384,6 @@
     <Content Include="Content\AdminLTE\plugins\summernote\summernote.js.map" />
     <Content Include="Content\AdminLTE\plugins\summernote\summernote.min.js.map" />
     <Content Include="Content\AdminLTE\plugins\toastr\toastr.js.map" />
-    <Content Include="ClassDiagram1.cd" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -2412,12 +2412,16 @@
     <Content Include="Views\Management\AddUser.cshtml" />
     <Content Include="Views\Auth\FirstLogin.cshtml" />
     <Content Include="Views\Auth\ValidateIpAdress.cshtml" />
+    <Content Include="Views\Management\UserList.cshtml" />
+    <Content Include="Views\Plant\Status.cshtml" />
+    <Content Include="Views\Plant\WateringOptions.cshtml" />
+    <Content Include="Views\Plant\PlannedWaterings.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\Api\" />
     <Folder Include="Views\Base\" />
-    <Folder Include="Views\Plant\" />
     <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>

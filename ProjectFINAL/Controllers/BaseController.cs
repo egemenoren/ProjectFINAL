@@ -7,12 +7,13 @@ using System.Web.Mvc;
 
 namespace ProjectFINAL.Controllers
 {
+    [Authorize]
     public class BaseController : Controller
     {
         public BaseController()
         {
    
         }
-    
+        
     }
 }

@@ -35,11 +35,10 @@ namespace ProjectFINAL.Controllers.Management
             }
             return RedirectToAction("AddUser");
         }
-        [Authorize]
-        [HttpGet]
-        public ActionResult ViewUsers()
+        public ActionResult UserList()
         {
-            return View();
+            var result = _userManager.GetAll();
+            return View(result.Data);
         }
     }
 }

@@ -25,7 +25,7 @@
     <link rel="stylesheet" href="~/Content/AdminLTE/plugins/bs-stepper/css/bs-stepper.min.css">
     <!-- dropzonejs -->
     <link rel="stylesheet" href="~/Content/AdminLTE/plugins/dropzone/min/dropzone.min.css">
-
+    @RenderSection("Header",required:false)
 </head>
 @{
     var checkIfManager = true.ToString();
@@ -228,7 +228,7 @@
                                 </ul>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="/Management/AddUser" class="nav-link">
+                                        <a href="/Management/UserList" class="nav-link">
                                             <i class="far fa-circle nav-icon text-teal"></i>
                                             <p>Kullanıcıları Görüntüle</p>
                                         </a>
@@ -248,19 +248,19 @@
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="../UI/general.html" class="nav-link">
+                                        <a href="/Plant/Status" class="nav-link">
                                             <i class="far fa-circle nav-icon text-warning"></i>
                                             <p>Bitki Durumu</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="../UI/icons.html" class="nav-link">
+                                        <a href="/Plant/WateringOptions" class="nav-link">
                                             <i class="far fa-circle nav-icon text-warning"></i>
                                             <p>Sulama Ayarları</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="../UI/buttons.html" class="nav-link">
+                                        <a href="/Plant/PlannedWaterings" class="nav-link">
                                             <i class="far fa-circle nav-icon text-warning"></i>
                                             <p>Planlı Sulamalar</p>
                                         </a>
@@ -491,5 +491,6 @@
         $(".main-sidebar").css("height", "100vh");
                                                                                                       // DropzoneJS Demo Code End
     </script>
+    @RenderSection("Script",required:false)
 </body>
 </html>

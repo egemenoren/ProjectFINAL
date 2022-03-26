@@ -19,40 +19,13 @@ namespace ProjectFINAL.Controllers
             plantManager = new PlantManager();
             humidityHistoryManager = new HumidityHistoryManager();
         }
-        [HttpGet]
-        public JsonResult GetCurrentHumidityRate(int plantId)
-        {
-            var entity = humidityHistoryManager.GetCurrentHumidityRateByPlantId(plantId);
-            return Json(entity.Data.HumidityRate, JsonRequestBehavior.AllowGet);
-        }
-        [HttpGet]
-        public JsonResult GetHumidityAndTemperatureToDb(double temperature, double humidityRate, int plantId)
-        {
-            var result = humidityHistoryManager.GetCurrentHumidityFromNodeMCU(humidityRate, plantId, temperature);
-            var data = result.Data;
-            return Json(data, JsonRequestBehavior.AllowGet);
-        }
-        [HttpGet]
-        public JsonResult GetRequiredHumidityRate(int plantId)
-        {
-            var result = plantManager.GetRequiredHumidityRateById(plantId);
-            return Json(result.Data.RequiredHumidityRate, JsonRequestBehavior.AllowGet);
-        }
 
-        [HttpGet]
-        public JsonResult GetUsersPlants(int userId)
+        [Authorize]
+        public ActionResult Status(int id)
         {
-            var result = plantManager.GetUsersPlantsByUserId(userId);
-            int i = 0;
-            string jsonStr = "";
-            foreach (var item in result.ListData)
-            {
-                i++;
-                jsonStr += item.Id.ToString();
-                if (i != result.ListData.Count())
-                    jsonStr += ",";
-            }
-            return Json(jsonStr, JsonRequestBehavior.AllowGet);
+            int userId = int.Parse(Session["UserId"].ToString());
+            var result = plantManager.GetById(id);
+            return View(result.Data);
         }
     }
 }

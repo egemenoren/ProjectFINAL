@@ -68,5 +68,17 @@ namespace Project.Data.Repository
             SaveChanges();
             
         }
+
+        public void BeginTransaction() {
+            _context.Database.BeginTransaction();
+        }
+        public void CommitTransaction()
+        {
+            _context.Database.CurrentTransaction?.Commit();
+        }
+        public void RollbackTransaction()
+        {
+            _context.Database.CurrentTransaction?.Rollback();
+        }
     }
 }

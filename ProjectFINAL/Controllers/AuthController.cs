@@ -87,13 +87,6 @@ namespace ProjectFINAL.Controllers
         public ActionResult Login(string Email, string password)
         {
             var result = userManager.Login(Email, password);
-            if (result.Data.IsFirstLogin == true)
-            {
-                Session["Id"] = result.Data.Id;
-                TempData["Success"] = "İlk girişinizi başarıyla yaptınız. Bu alanda güvenlik için şifrenizi ve güvenlik sorunuzun cevabını belirleyin.";
-                return RedirectToAction("Firstlogin", new { id = result.Data.Id });
-
-            }
             if (result.HasError)
             {
                 ViewBag.ErrMsg = result.ResultMessage;
@@ -105,6 +98,15 @@ namespace ProjectFINAL.Controllers
 
                 return View();
             }
+            if (result.Data.IsFirstLogin == true)
+            {
+                Session["Id"] = result.Data.Id;
+                TempData["Success"] = "İlk girişinizi başarıyla yaptınız. Bu alanda güvenlik için şifrenizi ve güvenlik sorunuzun cevabını belirleyin.";
+                return RedirectToAction("Firstlogin", new { id = result.Data.Id });
+
+            }
+            
+           
             TempData["Success"] = result.ResultMessage;
             FormsAuthentication.SetAuthCookie(Email, false);
             Session["UserId"] = result.Data.Id;
