@@ -19,5 +19,6 @@ namespace Project.Data.Context
         public DbSet<Plant> Plants { get; set; }
         public DbSet<WateringHistory> WateringHistories { get; set; }
         public DbSet<HumidityHistory> HumidityHistories { get; set; }
+        public DbSet<PlannedWaterings> PlannedWaterings { get; set; }
     }
 }

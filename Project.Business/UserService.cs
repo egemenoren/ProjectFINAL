@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace Project.Business
 {
-    public class UserManager : BaseManager<User>
+    public class UserService : BaseService<User>
     {
         private Crypto crypto;
-        public UserManager()
+        public UserService()
         {
             crypto = new Crypto();
         }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Project.Business
 {
-    public class PlantManager:BaseManager<Plant>
+    public class PlantService:BaseService<Plant>
     {
         public ServiceResult GetPlantListById(int UserId)
         {
@@ -22,16 +22,16 @@ namespace Project.Business
                 return new ServiceResult(ServiceResultCode.Generic, ex.Message);
             }
         }
-        public ServiceResult<Plant> GetRequiredHumidityRateById(int id)
+        public ServiceResult<double> GetRequiredHumidityRateById(int id)
         {
             try
             {
                 var entity = _repo.GetById(id);
-                return new ServiceResult<Plant>(entity);
+                return new ServiceResult<double>(entity.RequiredHumidityRate);
             }
             catch(Exception ex)
             {
-                return new ServiceResult<Plant>(ServiceResultCode.Generic, ex.Message);
+                return new ServiceResult<double>(ServiceResultCode.Generic, ex.Message);
             }
             
         }

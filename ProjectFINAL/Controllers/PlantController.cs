@@ -12,19 +12,19 @@ namespace ProjectFINAL.Controllers
     public class PlantController : Controller
     {
         // GET: Plant
-        private PlantManager plantManager;
-        private HumidityHistoryManager humidityHistoryManager;
+        private PlantService plantService;
+        private HumidityHistoryService humidityHistoryService;
         public PlantController()
         {
-            plantManager = new PlantManager();
-            humidityHistoryManager = new HumidityHistoryManager();
+            plantService = new PlantService();
+            humidityHistoryService = new HumidityHistoryService();
         }
 
         [Authorize]
         public ActionResult Status(int id)
         {
             int userId = int.Parse(Session["UserId"].ToString());
-            var result = plantManager.GetById(id);
+            var result = plantService.GetById(id);
             return View(result.Data);
         }
     }

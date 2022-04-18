@@ -10,10 +10,10 @@ namespace ProjectFINAL.Controllers.Management
 {
     public class ManagementController : BaseController
     {
-        private UserManager _userManager;
+        private UserService _userService;
         public ManagementController()
         {
-            _userManager = new UserManager();
+            _userService = new UserService();
         }
         [Authorize]
         public ActionResult AddUser()
@@ -24,7 +24,7 @@ namespace ProjectFINAL.Controllers.Management
         [HttpPost]
         public ActionResult AddUser(User user)
         {
-            var result = _userManager.Add(user);
+            var result = _userService.Add(user);
             if(result.HasError)
             {
                 TempData["ErrMsg"] = result.ResultMessage;
@@ -37,7 +37,7 @@ namespace ProjectFINAL.Controllers.Management
         }
         public ActionResult UserList()
         {
-            var result = _userManager.GetAll();
+            var result = _userService.GetAll();
             return View(result.Data);
         }
     }

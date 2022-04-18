@@ -11,10 +11,10 @@ namespace ProjectFINAL.Controllers
 {
     public class AuthController : Controller
     {
-        private UserManager userManager;
+        private UserService userService;
         public AuthController()
         {
-            userManager = new UserManager();
+            userService = new UserService();
         }
         public ActionResult Login()
         {
@@ -29,7 +29,7 @@ namespace ProjectFINAL.Controllers
             {
                 return RedirectToAction("Login");
             }
-            var entity = userManager.GetById(id);
+            var entity = userService.GetById(id);
             if (Session["Id"] == null || Session["Id"].ToString() != id.ToString())
                 return RedirectToAction("Login");
             return View(entity.Data);
@@ -37,10 +37,10 @@ namespace ProjectFINAL.Controllers
         [HttpPost]
         public ActionResult ValidateIpAdress(User user, string securityAnswer)
         {
-            var entity = userManager.GetById(user.Id);
-            if (userManager.CheckSecurityAnswer(entity.Data, securityAnswer))
+            var entity = userService.GetById(user.Id);
+            if (userService.CheckSecurityAnswer(entity.Data, securityAnswer))
             {
-                userManager.SetNewIpAdress(entity.Data);
+                userService.SetNewIpAdress(entity.Data);
                 TempData["Success"] = entity.ResultMessage;
                 FormsAuthentication.SetAuthCookie(entity.Data.Mail, false);
                 Session["UserId"] = entity.Data.Id;
@@ -61,8 +61,8 @@ namespace ProjectFINAL.Controllers
             }
             else
             {
-                userManager.GetById(int.Parse(userId));
-                var entity = userManager.GetById(id);
+                userService.GetById(int.Parse(userId));
+                var entity = userService.GetById(id);
                 if (entity.Data.IsFirstLogin == false)
                     return RedirectToAction("Index","Home");
                 return View(entity.Data);
@@ -71,7 +71,7 @@ namespace ProjectFINAL.Controllers
         [HttpPost]
         public ActionResult FirstLogin(User user)
         {
-            var result = userManager.FirstLogin(user.Id, user.Password, user.SecurityAnswer);
+            var result = userService.FirstLogin(user.Id, user.Password, user.SecurityAnswer);
             if (result.HasError)
             {
                 TempData["ErrMsg"] = result.ResultMessage;
@@ -86,7 +86,7 @@ namespace ProjectFINAL.Controllers
         [HttpPost]
         public ActionResult Login(string Email, string password)
         {
-            var result = userManager.Login(Email, password);
+            var result = userService.Login(Email, password);
             if (result.HasError)
             {
                 ViewBag.ErrMsg = result.ResultMessage;

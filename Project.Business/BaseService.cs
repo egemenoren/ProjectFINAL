@@ -4,17 +4,14 @@ using Project.Data.Repository;
 using Project.Entity;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Project.Business
 {
-    public abstract class BaseManager<T> where T:BaseEntity
+    public abstract class BaseService<T> where T:BaseEntity
     {
         internal readonly GenericRepository<T> _repo;
         internal readonly ValidateEntity<T> _validation;
-        public BaseManager()
+        public BaseService()
         {
             _repo = new GenericRepository<T>();
             _validation = new ValidateEntity<T>();

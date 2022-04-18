@@ -15,8 +15,6 @@ namespace Project.Data.Repository
         
         public GenericRepository()
         {
-            //loopa giriyor
-
             _context = new ProjectContext();
             _dbSet = _context.Set<T>();
         }

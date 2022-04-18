@@ -11,10 +11,10 @@ namespace ProjectFINAL.Controllers
 {
     public class HomeController : BaseController
     {
-        private UserManager userManager;
+        private UserService userService;
         public HomeController()
         {
-            userManager = new UserManager();
+            userService = new UserService();
         }
        
         public ActionResult Index()

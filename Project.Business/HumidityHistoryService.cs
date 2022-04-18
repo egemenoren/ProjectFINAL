@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace Project.Business
 {
-    public class HumidityHistoryManager : BaseManager<HumidityHistory>
+    public class HumidityHistoryService : BaseService<HumidityHistory>
     {
         internal HumidityRateRepository _repoHumidity;
-        public HumidityHistoryManager()
+        public HumidityHistoryService()
         {
             _repoHumidity = new HumidityRateRepository();
         }

@@ -9,17 +9,17 @@ namespace ProjectFINAL.Controllers.API
 {
     public class ApiController : Controller
     {
-        private readonly HumidityHistoryManager humidityHistoryManager;
-        private readonly PlantManager plantManager;
+        private readonly HumidityHistoryService humidityHistoryService;
+        private readonly PlantService plantService;
         public ApiController()
         {
-            plantManager = new PlantManager();
-            humidityHistoryManager = new HumidityHistoryManager();
+            plantService = new PlantService();
+            humidityHistoryService = new HumidityHistoryService();
         }
         [HttpGet]
         public JsonResult GetCurrentHumidityRate(int plantId)
         {
-            var entity = humidityHistoryManager.GetCurrentHumidityRateByPlantId(plantId);
+            var entity = humidityHistoryService.GetCurrentHumidityRateByPlantId(plantId);
             return Json(entity.Data.HumidityRate, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
@@ -31,21 +31,27 @@ namespace ProjectFINAL.Controllers.API
         [HttpGet]
         public JsonResult GetHumidityAndTemperatureToDb(double temperature, double humidityRate, int plantId)
         {
-            var result = humidityHistoryManager.GetCurrentHumidityFromNodeMCU(humidityRate, plantId, temperature);
+            var result = humidityHistoryService.GetCurrentHumidityFromNodeMCU(humidityRate, plantId, temperature);
             var data = result.Data;
+            var requiredHumidityRate = GetRequiredHumidityRate(plantId);
+            if (humidityRate < requiredHumidityRate)
+                return null; //TODO
+                //TODO:Sulamayı başlat.
+
+            //TODO: Eğer bitkinin sulama saati gelmiş ise veya nem oranı gerekenin altında ise sulamayı başlat.
             return Json(data, JsonRequestBehavior.AllowGet);
         }
-        [HttpGet]
-        public JsonResult GetRequiredHumidityRate(int plantId)
+        private double GetRequiredHumidityRate(int plantId)
         {
-            var result = plantManager.GetRequiredHumidityRateById(plantId);
-            return Json(result.Data.RequiredHumidityRate, JsonRequestBehavior.AllowGet);
+            //TODO:M
+            var result = plantService.GetRequiredHumidityRateById(plantId);
+            return result.Data;
         }
 
         [HttpGet]
         public JsonResult GetUsersPlants(int userId)
         {
-            var result = plantManager.GetUsersPlantsByUserId(userId);
+            var result = plantService.GetUsersPlantsByUserId(userId);
             int i = 0;
             string jsonStr = "";
             foreach (var item in result.ListData)
@@ -58,10 +64,5 @@ namespace ProjectFINAL.Controllers.API
             return Json(jsonStr, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult Data(int plantId)
-        {
-            var result = humidityHistoryManager.GetLastSixMonthsHumidity(plantId);
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }
     }
 }
