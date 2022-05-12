@@ -8,6 +8,8 @@ namespace Project.Entity
 {
     public class PlannedWaterings : BasePlantDataEntity
     {
+        public int LimitHumidityRate { get; set; }
         public DateTime WateringHour { get; set; }
+        public WateringType WateringType { get; set; }
     }
 }

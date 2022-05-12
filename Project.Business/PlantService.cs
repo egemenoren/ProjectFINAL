@@ -10,16 +10,16 @@ namespace Project.Business
 {
     public class PlantService:BaseService<Plant>
     {
-        public ServiceResult GetPlantListById(int UserId)
+        public ServiceResult<List<Plant>> GetPlantListById(int UserId)
         {
             try
             {
-                var entity = _repo.GetByParameter(x => x.UserId == UserId);
-                return new ServiceResult<Plant>(entity);
+                var entity = _repo.GetAll(x => x.UserId == UserId).ToList();
+                return new ServiceResult<List<Plant>>(entity);
             }
             catch(Exception ex)
             {
-                return new ServiceResult(ServiceResultCode.Generic, ex.Message);
+                return new ServiceResult<List<Plant>>(ServiceResultCode.Generic, ex.Message);
             }
         }
         public ServiceResult<double> GetRequiredHumidityRateById(int id)

@@ -54,5 +54,10 @@ namespace Project.Business
             var query = _repoHumidity.LastSixMonthsData(plantId);
             return query;
         }
+        public ServiceResult<List<HumidityHistory>> GetLastHoundredHumidityData(int plantId)
+        {
+            var result = _repoHumidity.GetAll(x=>x.PlantId==plantId).OrderByDescending(x => x.CreatedTime).Take(100).Reverse().ToList();
+            return new ServiceResult<List<HumidityHistory>>(result);
+        }
     }
 }

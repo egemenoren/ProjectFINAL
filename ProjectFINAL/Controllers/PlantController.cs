@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace ProjectFINAL.Controllers
 {
-    public class PlantController : Controller
+    public class PlantController : BaseController
     {
         // GET: Plant
         private PlantService plantService;
@@ -22,8 +22,7 @@ namespace ProjectFINAL.Controllers
 
         [Authorize]
         public ActionResult Status(int id)
-        {
-            int userId = int.Parse(Session["UserId"].ToString());
+        {    
             var result = plantService.GetById(id);
             return View(result.Data);
         }

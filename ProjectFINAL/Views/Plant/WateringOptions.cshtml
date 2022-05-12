@@ -1,7 +1,67 @@
 ﻿
 @{
-    ViewBag.Title = "WateringOptions";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>WateringOptions</h2>
 
+
+<div class="content-wrapper">
+    <div class="d-flex justify-content-center">
+        <div class="col-md-6 mt-5">
+            <form action="/Management/AddUser" method="post">
+                <div class="card card-success">
+                    <div class="card-header">
+                        <h3 class="card-title">Sulama Seçenekleri</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                            </div>
+                            @Html.TextBoxFor(x => x.Name, new { placeholder = "Adı", @class = "form-control", required = true })
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                            </div>
+
+                            @Html.TextBoxFor(x => x.Surname, new { placeholder = "Soyadı", @class = "form-control", required = true })
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                            </div>
+                            @Html.TextBoxFor(x => x.Mail, new { placeholder = "E-Mail", @class = "form-control", type = "Email", required = true })
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-mobile"></i></span>
+                            </div>
+                            @Html.TextBoxFor(x => x.PhoneNumber, new { placeholder = "Telefon Numarası", @class = "form-control", required = true })
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-key"></i></span>
+                            </div>
+                            @Html.TextBoxFor(x => x.SecurityQuestion, new { placeholder = "Güvenlik Sorusu", @class = "form-control", required = true })
+                        </div>
+                        <!-- /input-group -->
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer text-right">
+                        <button type="submit" class="btn btn-info">Kaydet</button>
+                        <div class="btn btn-danger"><a href="/Home/Index" style="color:white">Vazgeç</a></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="~/Content/AdminLTE/plugins/jquery/jquery.min.js"></script>
+<script>
+
+
+
+
+
+</script>

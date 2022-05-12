@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Project.Entity;
+@using Project.Business;
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -25,12 +27,13 @@
     <link rel="stylesheet" href="~/Content/AdminLTE/plugins/bs-stepper/css/bs-stepper.min.css">
     <!-- dropzonejs -->
     <link rel="stylesheet" href="~/Content/AdminLTE/plugins/dropzone/min/dropzone.min.css">
-    @RenderSection("Header",required:false)
+    @RenderSection("Header", required: false)
 </head>
 @{
+
     var checkIfManager = true; // TEST ORTAMI İÇİN OTOMATİK TRUE YAPILDI
-    var nameSurname = Session["Name"] + " " + Session["Surname"];
-    var Plants = ViewBag.Plants;
+    var user = (User)Session["User"];
+    var plants = new PlantService().GetPlantListById(user.Id).Data;
 
 }
 <body class="hold-transition sidebar-mini">
@@ -52,7 +55,7 @@
                         <img src="~/Content/AdminLTE/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block">@nameSurname<span class="badge badge-info  mx-2"></span></a>
+                        <a href="#" class="d-block">@user.Name @user.Surname<span class="badge badge-info  mx-2"></span></a>
                     </div>
                 </div>
 
@@ -73,7 +76,7 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
     with font-awesome or any other icon font library -->
-                        @if (checkIfManager)
+                        @if (user.IsAdmin)
                         {
                             <li class="nav-item">
                                 <a href="#" class="nav-link">
@@ -102,34 +105,92 @@
                             </li>
                         }
                         <li class="nav-header">KULLANICI PANELİ</li>
+                        @foreach (var plant in plants)
+                        {
+                            <li class="nav-item">
+                                <a href="javascript:;" class="nav-link">
+                                    <i class="nav-icon fa fa-tree"></i>
+                                    <p>
+                                        @plant.Name
+                                        <i class="fas fa-angle-left right"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="/Plant/Status/@plant.Id" class="nav-link">
+                                            <i class="far fa-circle nav-icon text-warning"></i>
+                                            <p>Bitki Durumu</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/Plant/WateringOptions/@plant.Id" class="nav-link">
+                                            <i class="far fa-circle nav-icon text-warning"></i>
+                                            <p>Sulama Ayarları</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/Plant/PlannedWaterings/@plant.Id" class="nav-link">
+                                            <i class="far fa-circle nav-icon text-warning"></i>
+                                            <p>Planlı Sulamalar</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
 
-                        <li class="nav-item"> @*KULLANICI BİTKİ OLUŞTURDUKÇA BURASI TEKRAR EDECEK. DİNAMİKLEŞTİRİLECEK İD'SİNE GÖRE' *@
+                        @*<li class="nav-item">
+        <a href="javascript:;" class="nav-link">
+                <i class="nav-icon fa fa-tree"></i>
+                <p>
+                    Bitki (Bitki-Adı)
+                    <i class="fas fa-angle-left right"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="/Plant/Status" class="nav-link">
+                        <i class="far fa-circle nav-icon text-warning"></i>
+                        <p>Bitki Durumu</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/Plant/WateringOptions" class="nav-link">
+                        <i class="far fa-circle nav-icon text-warning"></i>
+                        <p>Sulama Ayarları</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/Plant/PlannedWaterings" class="nav-link">
+                        <i class="far fa-circle nav-icon text-warning"></i>
+                        <p>Planlı Sulamalar</p>
+                    </a>
+                </li>>
+            </ul>
+        </li>*@
+                        <li class="nav-item">
+                            @*KULLANICI BİTKİ OLUŞTURDUKÇA BURASI TEKRAR EDECEK. DİNAMİKLEŞTİRİLECEK İD'SİNE GÖRE' *@
                             <a href="#" class="nav-link">
-                                <i class="nav-icon fa fa-tree"></i>
-                                <p key="MENU_PLANT_NAME">
-                                    Bitki (Bitki-Adı)
+                                <i class="nav-icon fa-solid fa-user"></i>
+                                <p>
+                                    Kullanıcı İşlemleri
                                     <i class="fas fa-angle-left right"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="/Plant/Status" class="nav-link">
-                                        <i class="far fa-circle nav-icon text-warning"></i>
-                                        <p>Bitki Durumu</p>
+                                    <a href="/User/Profile/@user.Id" class="nav-link">
+                                        <i class="nav-icon fa-solid fa-user-gear"></i>
+                                        <p> Profilim</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="/Plant/WateringOptions" class="nav-link">
-                                        <i class="far fa-circle nav-icon text-warning"></i>
-                                        <p key="MENU_WATERING_OPTIONS">Sulama Ayarları</p>
+                                    <a href="/Auth/Logout" class="nav-link">
+                                        <i class="nav-icon fa-solid fa-right-from-bracket"></i>
+                                        <p>
+                                            Çıkış
+                                        </p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a href="/Plant/PlannedWaterings" class="nav-link">
-                                        <i class="far fa-circle nav-icon text-warning"></i>
-                                        <p>Planlı Sulamalar</p>
-                                    </a>
-                                </li>>
                             </ul>
                         </li>
 
@@ -356,8 +417,8 @@
             myDropzone.removeAllFiles(true)
         }
         $(".main-sidebar").css("height", "100vh");
-                                                                                                      // DropzoneJS Demo Code End
+                                                                                                              // DropzoneJS Demo Code End
     </script>
-    @RenderSection("Script",required:false)
+    @RenderSection("Script", required: false)
 </body>
 </html>

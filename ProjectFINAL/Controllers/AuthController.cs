@@ -109,6 +109,7 @@ namespace ProjectFINAL.Controllers
            
             TempData["Success"] = result.ResultMessage;
             FormsAuthentication.SetAuthCookie(Email, false);
+            Session["User"] = result.Data;
             Session["UserId"] = result.Data.Id;
             Session["NameSurname"] = result.Data.Name + " " + result.Data.Surname;
             return RedirectToAction("Index", "Home");

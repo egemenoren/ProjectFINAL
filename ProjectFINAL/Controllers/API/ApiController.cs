@@ -22,12 +22,24 @@ namespace ProjectFINAL.Controllers.API
             var entity = humidityHistoryService.GetCurrentHumidityRateByPlantId(plantId);
             return Json(entity.Data.HumidityRate, JsonRequestBehavior.AllowGet);
         }
-        [HttpPost]
+        [HttpGet]
         public JsonResult GetAverageHumidityLastSixMonths(int plantId)
         {
-            return null;
+            var result = humidityHistoryService.GetLastSixMonthsHumidity(plantId);
+            return Json(result,JsonRequestBehavior.AllowGet);
         }
-
+        public JsonResult GetRealTimeData(int plantId)
+        {
+            var result = humidityHistoryService.GetLastHoundredHumidityData(plantId);
+            var list = new List<List<double>>();
+            int i = 0;
+            foreach (var item in result.Data)
+            {
+                list.Add(new List<double> { i, item.HumidityRate });
+                i++;
+            }
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
         [HttpGet]
         public JsonResult GetHumidityAndTemperatureToDb(double temperature, double humidityRate, int plantId)
         {

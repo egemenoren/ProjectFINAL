@@ -20,15 +20,15 @@ namespace Project.Data.Repository
             var currentDate = DateTime.Now;
             var lastSixMonth = DateTime.Now.AddMonths(-6);
             var list = _dbSet.Where(x => x.CreatedTime < currentDate && x.CreatedTime > lastSixMonth).ToList();
-            var query = _dbSet.Where(x => x.PlantId == plantId && x.CreatedTime > lastSixMonth)
+            var query = _dbSet.Where(x => x.PlantId == plantId && x.CreatedTime > lastSixMonth && x.CreatedTime < currentDate)
                 .GroupBy(g =>g.CreatedTime.Month , c=>new {c.HumidityRate,c.PlantId,c.CreatedTime.Year })
                 .Select(g => new
             {
-                Month = Convert.ToDateTime(g.Key.ToString("MMMM")),
+                Month = g.Key,
                 Year = g.Select(x=>x.Year).Distinct().FirstOrDefault(),
                 Humdity = g.Select(x=>x.HumidityRate).Average(),
                 PlantId = g.Select(x=>x.PlantId).FirstOrDefault()   
-            }).ToList<object>();
+            }).OrderBy(x=>x.Year).ToList<object>();
             return query;
         }
 
