@@ -46,6 +46,7 @@
     <Compile Include="BasePlantDataEntity.cs" />
     <Compile Include="DataStatus.cs" />
     <Compile Include="HumidityHistory.cs" />
+    <Compile Include="Period.cs" />
     <Compile Include="PlannedWaterings.cs" />
     <Compile Include="Plant.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

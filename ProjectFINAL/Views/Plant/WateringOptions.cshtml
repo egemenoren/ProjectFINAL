@@ -1,6 +1,9 @@
-﻿
+﻿@model Project.Entity.PlannedWaterings
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var wateringType = Model.WateringType;
+    var isTimer = Model.WateringType == Project.Entity.WateringType.Timer;
+    var isHumidity = Model.WateringType = Project.Entity.WateringType.Humidity;
 }
 
 
@@ -8,45 +11,51 @@
 <div class="content-wrapper">
     <div class="d-flex justify-content-center">
         <div class="col-md-6 mt-5">
-            <form action="/Management/AddUser" method="post">
+            <form action="/Plant/WateringOptions" method="post" id="optionsForm">
                 <div class="card card-success">
                     <div class="card-header">
                         <h3 class="card-title">Sulama Seçenekleri</h3>
                     </div>
-                    <div class="card-body">
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fas fa-id-card"></i></span>
-                            </div>
-                            @Html.TextBoxFor(x => x.Name, new { placeholder = "Adı", @class = "form-control", required = true })
+                    <input type="hidden" name="Id" id="Id" value="@Model.Id" />
+                    @Html.HiddenFor(x => x.PlantId)
+                <div class="card-body">
+
+                    <div class="form-group">
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" name="typeRadio" id="typeRadio">
+                            <input type="hidden" value="1" name="WateringType" id="WateringType" />
+                            <label class="custom-control-label" for="typeRadio">Nem oranına göre sulama</label>
                         </div>
-                        <div class="input-group mb-3">
+                    </div>
+                    <div id="hourBlock">
+                        <div class="form-group">
+                            <label for="Period">Periyot</label>
+                            @Html.EnumDropDownListFor(x => x.Period, "Birini Seçin", new { @class = "custom-select rounded-0", required = true })
+                        </div>
+                        <label>Sulama saati giriniz</label>
+                        <div class="input-group">
+
                             <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                                <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                             </div>
 
-                            @Html.TextBoxFor(x => x.Surname, new { placeholder = "Soyadı", @class = "form-control", required = true })
+                            @Html.TextBoxFor(x => x.WateringHour, new { type = "text", @class = "form-control", @data_inputmask_alias = "datetime", id = "WateringHour", name = "WateringHour", @data_inputmask_inputformat = "HH:MM", @data_mask = "", @inputmode = "numeric", required = true })
                         </div>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                            </div>
-                            @Html.TextBoxFor(x => x.Mail, new { placeholder = "E-Mail", @class = "form-control", type = "Email", required = true })
-                        </div>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fas fa-mobile"></i></span>
-                            </div>
-                            @Html.TextBoxFor(x => x.PhoneNumber, new { placeholder = "Telefon Numarası", @class = "form-control", required = true })
-                        </div>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fas fa-key"></i></span>
-                            </div>
-                            @Html.TextBoxFor(x => x.SecurityQuestion, new { placeholder = "Güvenlik Sorusu", @class = "form-control", required = true })
-                        </div>
-                        <!-- /input-group -->
                     </div>
+                    <div id="humidityBlock" class="form-group" style="display:none">
+                        <label for="LimitHumidityRate">Nem oranı limiti (%)</label>
+
+                        <input type="number" class="form-control" value="@Model.LimitHumidityRate" name="LimitHumidityRate" id="LimitHumidityRate" placeholder="Örnek:45">
+                    </div>
+                    <div class="form-group">
+                        <label for="WateringSecond">Sulama süresi (saniye)</label>
+                        @Html.TextBoxFor(x => x.WateringSecond, new { type = "number", placeholder = "Örnek:60", required = true, @class = "form-control" })
+
+                    </div>
+
+
+                    <!-- /input-group -->
+                </div>
                     <!-- /.card-body -->
                     <div class="card-footer text-right">
                         <button type="submit" class="btn btn-info">Kaydet</button>
@@ -58,9 +67,45 @@
     </div>
 </div>
 <script src="~/Content/AdminLTE/plugins/jquery/jquery.min.js"></script>
+<script src="~/Content/AdminLTE/plugins/jquery-validation/jquery.validate.min.js"></script>
+<script src="~/Content/AdminLTE/plugins/jquery-validation/additional-methods.min.js"></script>
 <script>
 
+    $(document).ready(function () {
+        if ("@Model.WateringType" == "Humidity") {
+          
+            $("#typeRadio").click();
+        }
+    })
 
+    $("#typeRadio").on('click', function () {
+        if ($(this).is(":checked") == true) {
+            $("#humidityBlock").show('slow');
+            $("#hourBlock").hide('slow');
+            $("#WateringType").val("2");
+            $("#LimitHumidityRate").attr("required", true);
+            $("#WateringHour").attr("required", false);
+            $("#WateringSecond").attr("required", false);
+            $("#Period").attr("required", false);
+        }
+        else {
+            $("#humidityBlock").hide('slow');
+            $("#hourBlock").show('slow');
+            $("#WateringType").val("1");
+            $("#LimitHumidityRate").attr("required", false);
+            $("#WateringHour").attr("required", true);
+            $("#WateringSecond").attr("required", true);
+            $("#Period").attr("required", true);
+        }
+
+    })
+    //$("#typeRadio").on('click', function () {
+    //    if ($("#WateringType").val() == "2")
+    //        $("#WateringType").val("1");
+    //    else
+    //        $("#WateringType").val("2");
+
+    //})
 
 
 
