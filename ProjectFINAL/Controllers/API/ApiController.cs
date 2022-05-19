@@ -10,11 +10,13 @@ namespace ProjectFINAL.Controllers.API
     public class ApiController : Controller
     {
         private readonly HumidityHistoryService humidityHistoryService;
+        private readonly PlannedWateringService plannedWateringService;
         private readonly PlantService plantService;
         public ApiController()
         {
             plantService = new PlantService();
             humidityHistoryService = new HumidityHistoryService();
+            plannedWateringService = new PlannedWateringService();
         }
         [HttpGet]
         public JsonResult GetCurrentHumidityRate(int plantId)
@@ -45,10 +47,9 @@ namespace ProjectFINAL.Controllers.API
         {
             var result = humidityHistoryService.GetCurrentHumidityFromNodeMCU(humidityRate, plantId, temperature);
             var data = result.Data;
-            var requiredHumidityRate = GetRequiredHumidityRate(plantId);
-            if (humidityRate < requiredHumidityRate)
-                return null; //TODO
-                //TODO:Sulamayı başlat.
+            var checkNeedsToBeWatered = plannedWateringService.CheckNeedsToBeWatered(plantId,humidityRate);
+            if(checkNeedsToBeWatered.ResultCode == Project.Business.Middleware.ServiceResultCode.Success)
+                return Json(checkNeedsToBeWatered.Data,JsonRequestBehavior.AllowGet);
 
             //TODO: Eğer bitkinin sulama saati gelmiş ise veya nem oranı gerekenin altında ise sulamayı başlat.
             return Json(data, JsonRequestBehavior.AllowGet);

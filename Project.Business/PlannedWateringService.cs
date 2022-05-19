@@ -10,13 +10,20 @@ namespace Project.Business
 {
     public class PlannedWateringService : BaseService<PlannedWaterings>
     {
+        private readonly HumidityHistoryService _humidityHistoryService;
+        private readonly WateringHistoryService _wateringHistoryService;
+        public PlannedWateringService()
+        {
+            _humidityHistoryService = new HumidityHistoryService();
+            _wateringHistoryService = new WateringHistoryService();
+        }
         public ServiceResult<PlannedWaterings> GetByPlantId(int plantId)
         {
-            return  new ServiceResult<PlannedWaterings>(_repo.GetAll(x => x.PlantId == plantId).FirstOrDefault());
+            return new ServiceResult<PlannedWaterings>(_repo.GetAll(x => x.PlantId == plantId).FirstOrDefault());
         }
         public override ServiceResult Update(PlannedWaterings model)
         {
-            if(model.WateringType == WateringType.Humidity)
+            if (model.WateringType == WateringType.Humidity)
             {
                 model.Period = null;
                 model.WateringHour = null;
@@ -30,11 +37,36 @@ namespace Project.Business
                 _repo.Update(model);
                 return new ServiceResult(ServiceResultCode.Success);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return new ServiceResult(ServiceResultCode.Generic);
             }
-            
+
+        }
+        public ServiceResult<bool> CheckNeedsToBeWatered(int plantId, double currentHumidityRate)
+        {
+            var entity = _repo.GetByParameter(x => x.PlantId == plantId);
+            if (entity.WateringType == WateringType.Humidity)
+                if (currentHumidityRate <= entity.LimitHumidityRate)
+                    return new ServiceResult<bool>(true);
+                else
+                    return new ServiceResult<bool>(false);
+            else
+            {
+                var wateringHour = Convert.ToDateTime(entity.WateringHour).ToString("mm:HH");
+                //Check has the plant watered previous day
+                if(DateTime.Now.Hour == entity.WateringHour.Value.Hour && DateTime.Now.Minute > entity.WateringHour.Value.Minute-5 && DateTime.Now.Minute < entity.WateringHour.Value.Minute + 5)
+                {
+                    var checkIfWatered = _wateringHistoryService.CheckIfHasBeenWatered(plantId);
+                    if (checkIfWatered.Data == true)
+                        return new ServiceResult<bool>(false);
+                    return new ServiceResult<bool>(true);
+                }
+                return new ServiceResult<bool>(false);
+                
+            }
+
+            //var currentHumidityRate = _humidityHistoryService.GetCurrentHumidityRateByPlantId(plantId).Data.HumidityRate;
         }
     }
 }

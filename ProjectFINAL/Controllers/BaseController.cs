@@ -24,6 +24,9 @@ namespace ProjectFINAL.Controllers
                 Session.Abandon();
                 FormsAuthentication.SignOut();
                 new RedirectResult(Url.Action("Login", "Auth")).ExecuteResult(this.ControllerContext);
+                requestContext.HttpContext.Response.Clear();
+                requestContext.HttpContext.Response.Redirect(Url.Action("Login", "Auth"));
+                requestContext.HttpContext.Response.End();
             }
         }
     }

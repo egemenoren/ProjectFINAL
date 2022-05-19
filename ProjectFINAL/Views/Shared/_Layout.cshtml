@@ -33,6 +33,7 @@
 
     var checkIfManager = true; // TEST ORTAMI İÇİN OTOMATİK TRUE YAPILDI
     var user = (User)Session["User"];
+    user.IsAdmin = true;
     var plants = new PlantService().GetPlantListById(user.Id).Data;
 
 }

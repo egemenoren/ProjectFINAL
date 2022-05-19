@@ -2,8 +2,8 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     var wateringType = Model.WateringType;
-    var isTimer = Model.WateringType == Project.Entity.WateringType.Timer;
-    var isHumidity = Model.WateringType = Project.Entity.WateringType.Humidity;
+    var isTimer = (Model.WateringType == Project.Entity.WateringType.Timer).ToString().ToLower(); ;
+    string isHumidity = (Model.WateringType == Project.Entity.WateringType.Humidity).ToString().ToLower();
 }
 
 
@@ -23,7 +23,7 @@
                     <div class="form-group">
                         <div class="custom-control custom-switch">
                             <input type="checkbox" class="custom-control-input" name="typeRadio" id="typeRadio">
-                            <input type="hidden" value="1" name="WateringType" id="WateringType" />
+                            <input type="hidden" value="2" name="WateringType" id="WateringType" />
                             <label class="custom-control-label" for="typeRadio">Nem oranına göre sulama</label>
                         </div>
                     </div>
@@ -72,7 +72,7 @@
 <script>
 
     $(document).ready(function () {
-        if ("@Model.WateringType" == "Humidity") {
+        if (@isHumidity) {
           
             $("#typeRadio").click();
         }
@@ -82,7 +82,7 @@
         if ($(this).is(":checked") == true) {
             $("#humidityBlock").show('slow');
             $("#hourBlock").hide('slow');
-            $("#WateringType").val("2");
+            $("#WateringType").val("1");
             $("#LimitHumidityRate").attr("required", true);
             $("#WateringHour").attr("required", false);
             $("#WateringSecond").attr("required", false);
@@ -91,7 +91,7 @@
         else {
             $("#humidityBlock").hide('slow');
             $("#hourBlock").show('slow');
-            $("#WateringType").val("1");
+            $("#WateringType").val("2");
             $("#LimitHumidityRate").attr("required", false);
             $("#WateringHour").attr("required", true);
             $("#WateringSecond").attr("required", true);

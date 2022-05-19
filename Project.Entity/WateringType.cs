@@ -8,7 +8,7 @@ namespace Project.Entity
 {
     public enum WateringType
     {
-        Timer = 1,
-        Humidity = 2
+        Humidity = 1,
+        Timer = 2
     }
 }
