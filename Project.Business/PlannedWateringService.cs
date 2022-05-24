@@ -53,7 +53,6 @@ namespace Project.Business
                     return new ServiceResult<bool>(false);
             else
             {
-                var wateringHour = Convert.ToDateTime(entity.WateringHour).ToString("mm:HH");
                 //Check has the plant watered previous day
                 if(DateTime.Now.Hour == entity.WateringHour.Value.Hour && DateTime.Now.Minute > entity.WateringHour.Value.Minute-5 && DateTime.Now.Minute < entity.WateringHour.Value.Minute + 5)
                 {
