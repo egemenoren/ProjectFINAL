@@ -8,6 +8,6 @@ namespace Project.Entity
 {
     public class WateringHistory : BasePlantDataEntity
     {
-        public int LastHumidityRate { get; set; }
+        public double LastHumidityRate { get; set; }
     }
 }

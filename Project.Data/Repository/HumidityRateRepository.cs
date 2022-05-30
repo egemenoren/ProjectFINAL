@@ -19,9 +19,6 @@ namespace Project.Data.Repository
         {
             var currentDate = DateTime.Now;
             var lastSixMonth = DateTime.Now.AddMonths(-6);
-            var list = _dbSet.Where(x => x.CreatedTime < currentDate && x.CreatedTime > lastSixMonth).ToList();
-
-
             var query = _dbSet.Where(x => x.PlantId == plantId && x.CreatedTime > lastSixMonth && x.CreatedTime < currentDate)
                 .GroupBy(g =>g.CreatedTime.Month , c=>new {c.HumidityRate,c.PlantId,c.CreatedTime.Year })
                 .Select(g => new

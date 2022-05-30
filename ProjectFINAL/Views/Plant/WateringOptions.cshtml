@@ -8,7 +8,6 @@
 
 
 
-<div class="content-wrapper">
     <div class="d-flex justify-content-center">
         <div class="col-md-6 mt-5">
             <form action="/Plant/WateringOptions" method="post" id="optionsForm">
@@ -39,7 +38,7 @@
                                 <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                             </div>
 
-                            @Html.TextBoxFor(x => x.WateringHour, new { type = "text", @class = "form-control", @data_inputmask_alias = "datetime", id = "WateringHour", name = "WateringHour", @data_inputmask_inputformat = "HH:MM", @data_mask = "", @inputmode = "numeric", required = true })
+                            @Html.TextBoxFor(x => x.WateringHour, new { type = "text", @class = "form-control", @data_inputmask_alias = "datetime", id = "WateringHour", name = "WateringHour", value=(Model.WateringHour.Value.Hours + ":" + Model.WateringHour.Value.Minutes), @data_inputmask_inputformat = "HH:MM", @data_mask = "", @inputmode = "numeric", required = true })
                         </div>
                     </div>
                     <div id="humidityBlock" class="form-group" style="display:none">
@@ -65,7 +64,6 @@
             </form>
         </div>
     </div>
-</div>
 <script src="~/Content/AdminLTE/plugins/jquery/jquery.min.js"></script>
 <script src="~/Content/AdminLTE/plugins/jquery-validation/jquery.validate.min.js"></script>
 <script src="~/Content/AdminLTE/plugins/jquery-validation/additional-methods.min.js"></script>

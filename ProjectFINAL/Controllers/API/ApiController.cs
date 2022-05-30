@@ -12,11 +12,13 @@ namespace ProjectFINAL.Controllers.API
         private readonly HumidityHistoryService humidityHistoryService;
         private readonly PlannedWateringService plannedWateringService;
         private readonly PlantService plantService;
+        private readonly WateringHistoryService wateringHistoryService;
         public ApiController()
         {
             plantService = new PlantService();
             humidityHistoryService = new HumidityHistoryService();
             plannedWateringService = new PlannedWateringService();
+            wateringHistoryService = new WateringHistoryService();
         }
         [HttpGet]
         public JsonResult GetCurrentHumidityRate(int plantId)
@@ -46,19 +48,26 @@ namespace ProjectFINAL.Controllers.API
         public JsonResult GetHumidityAndTemperatureToDb(double temperature, double humidityRate, int plantId)
         {
             humidityHistoryService.GetCurrentHumidityFromNodeMCU(humidityRate, plantId, temperature);
-            var wateringTime = plannedWateringService.GetById(plantId);
+            var wateringTime = plannedWateringService.GetByPlantId(plantId);
             var checkNeedsToBeWatered = plannedWateringService.CheckNeedsToBeWatered(plantId, humidityRate);
+            if(checkNeedsToBeWatered.Data)
+            {
+                var wateringHistory = wateringHistoryService.Add(new Project.Entity.WateringHistory
+                {
+                    CreatedTime = DateTime.Now,
+                    PlantId = plantId,
+                    Status = Project.Entity.DataStatus.Active,
+                    LastHumidityRate = humidityRate
+                });
+                if (wateringHistory.HasError)
+                    return Json(new { Error = wateringHistory.ResultMessage });
+            }
+            
             if (checkNeedsToBeWatered.ResultCode == Project.Business.Middleware.ServiceResultCode.Success)
                 return Json(new { isNeedWater = checkNeedsToBeWatered.Data, waterTime = wateringTime.Data.WateringSecond }, JsonRequestBehavior.AllowGet);
             return Json(new { isNeedWater = false, waterTime = 0 }, JsonRequestBehavior.AllowGet);
             //TODO: Eğer bitkinin sulama saati gelmiş ise veya nem oranı gerekenin altında ise sulamayı başlat.
 
-        }
-        private double GetRequiredHumidityRate(int plantId)
-        {
-            //TODO:M
-            var result = plantService.GetRequiredHumidityRateById(plantId);
-            return result.Data;
         }
 
         [HttpGet]

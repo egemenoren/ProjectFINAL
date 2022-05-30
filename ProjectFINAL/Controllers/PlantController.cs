@@ -32,6 +32,7 @@ namespace ProjectFINAL.Controllers
         public ActionResult WateringOptions(int id)
         {
             var plannedWatering = plannedWateringService.GetByPlantId(id);
+            
             if (plannedWatering.Data == null)
             {
                 var result = plannedWateringService.Add(new Project.Entity.PlannedWaterings
@@ -47,6 +48,7 @@ namespace ProjectFINAL.Controllers
         [HttpPost]
         public ActionResult WateringOptions(PlannedWaterings model)
         {
+            model.WateringHour = model.WateringHour.Value;
             var result = plannedWateringService.Update(model);
             if (!result.HasError)
             {
