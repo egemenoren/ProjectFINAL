@@ -22,19 +22,6 @@ namespace Project.Business
                 return new ServiceResult<List<Plant>>(ServiceResultCode.Generic, ex.Message);
             }
         }
-        public ServiceResult<double> GetRequiredHumidityRateById(int id)
-        {
-            try
-            {
-                var entity = _repo.GetById(id);
-                return new ServiceResult<double>(entity.RequiredHumidityRate);
-            }
-            catch(Exception ex)
-            {
-                return new ServiceResult<double>(ServiceResultCode.Generic, ex.Message);
-            }
-            
-        }
         public ServiceResult<Plant> GetUsersPlantsByUserId(int userId)
         {
             try

@@ -54,7 +54,7 @@ namespace Project.Business
             else
             {
                 //Check has the plant watered previous day
-                if(DateTime.Now.Hour == entity.WateringHour.Value.Hours && DateTime.Now.Minute > entity.WateringHour.Value.Minutes-5 && DateTime.Now.Minute < entity.WateringHour.Value.Minutes + 5)
+                if(DateTime.Now.Hour == entity.WateringHour.Value.Hour && DateTime.Now.Minute > entity.WateringHour.Value.Minute-5 && DateTime.Now.Minute < entity.WateringHour.Value.Minute + 5)
                 {
                     var checkIfWatered = _wateringHistoryService.CheckIfHasBeenWatered(plantId);
                     if (checkIfWatered.Data == true)

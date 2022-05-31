@@ -4,6 +4,7 @@ using Project.Data.Repository;
 using Project.Entity;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace Project.Business
 {
@@ -16,6 +17,13 @@ namespace Project.Business
             _repo = new GenericRepository<T>();
             _validation = new ValidateEntity<T>();
             
+            
+        }
+        public virtual ServiceResult<IEnumerable<T>> FindBy(Expression<Func<T,bool>> filter=null)
+        {
+            if (filter != null)
+                return new ServiceResult<IEnumerable<T>>(_repo.GetAll(filter));
+            return new ServiceResult<IEnumerable<T>>(_repo.GetAll());
             
         }
         public virtual ServiceResult<IEnumerable<T>> GetAll()
@@ -54,7 +62,7 @@ namespace Project.Business
                     _repo.Insert(Entity);
                     return SaveChanges();
                 }
-                catch
+                catch(Exception ex)
                 {
                     return new ServiceResult(ServiceResultCode.Generic);
                 }

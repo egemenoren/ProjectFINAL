@@ -1,4 +1,5 @@
 ﻿using Project.Business;
+using Project.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,14 +13,15 @@ namespace ProjectFINAL.Controllers
     [Authorize]
     public class BaseController : Controller
     {
+        public static User currentUser;
         public BaseController()
         {
-   
+        
         }
         protected override void Initialize(RequestContext requestContext)
         {
             base.Initialize(requestContext);
-            if (Session["User"] == null && this.ControllerContext.RouteData.Values["controller"].ToString().ToLower() != "auth")
+            if (currentUser == null && this.ControllerContext.RouteData.Values["controller"].ToString().ToLower() != "auth")
             {
                 Session.Abandon();
                 FormsAuthentication.SignOut();

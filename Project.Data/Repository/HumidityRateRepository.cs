@@ -19,7 +19,7 @@ namespace Project.Data.Repository
         {
             var currentDate = DateTime.Now;
             var lastSixMonth = DateTime.Now.AddMonths(-6);
-            var query = _dbSet.Where(x => x.PlantId == plantId && x.CreatedTime > lastSixMonth && x.CreatedTime < currentDate)
+            return _dbSet.Where(x => x.PlantId == plantId && x.CreatedTime > lastSixMonth && x.CreatedTime < currentDate)
                 .GroupBy(g =>g.CreatedTime.Month , c=>new {c.HumidityRate,c.PlantId,c.CreatedTime.Year })
                 .Select(g => new
             {
@@ -28,7 +28,6 @@ namespace Project.Data.Repository
                 Humdity = g.Select(x=>x.HumidityRate).Average(),
                 PlantId = g.Select(x=>x.PlantId).FirstOrDefault()   
             }).OrderBy(x=>x.Year).ToList<object>();
-            return query;
         }
 
 

@@ -90,7 +90,30 @@
                             </div>
                         </div>
                         <div id="plant-info" class="card-body">
+                            <div class="info-box shadow">
+                                <span class="info-box-icon bg-warning"><i class="fa-solid fa-faucet"></i></span>
 
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Son Sulanma Tarihi</span>
+                                    @{
+                                        var wateringDate = ViewBag.LastWateredTime.Data.Year != 1 ? ViewBag.LastWateredTime.Data.ToString() : "Sulanmadı";
+                                    }
+                                    <span class="info-box-number">@wateringDate</span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <div class="info-box shadow">
+                                <span class="info-box-icon bg-warning"><i class="fa-solid fa-clock"></i></span>
+
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Son 24 Saatte Sulama Sayısı</span>
+                                    @{
+                                        var wateringTime = ViewBag.WateringTimeInToday.Data.Count != 0 ? ViewBag.WateringTimeInToday.Data.Count.ToString() + " Kez Sulandı" : "Sulanmadı";
+                                    }
+                                    <span class="info-box-number">@wateringTime</span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
                         </div>
                         <!-- /.card-body-->
                     </div>

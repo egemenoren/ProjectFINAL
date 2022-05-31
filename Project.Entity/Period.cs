@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,7 +9,9 @@ namespace Project.Entity
 {
     public enum Period
     {
+        [Description("Günlük")]
         Daily=1,
-        Weekly=2
+        [Description("Haftalık")]
+        Weekly = 2
     }
 }

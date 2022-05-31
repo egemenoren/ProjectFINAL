@@ -81,5 +81,10 @@ namespace Project.Business
             }
 
         }
+        public ServiceResult<List<User>> GetActiveUsers()
+        {
+            var result = _repo.GetAll(x => x.Status == DataStatus.Active).ToList();
+            return new ServiceResult<List<User>>(result);
+        }
     }
 }

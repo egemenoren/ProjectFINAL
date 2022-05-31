@@ -9,7 +9,6 @@ namespace Project.Entity
     public class Plant:BaseEntity
     {
         public string Name { get; set; }
-        public int RequiredHumidityRate { get; set; }
         public int UserId { get; set; }
     }
 }

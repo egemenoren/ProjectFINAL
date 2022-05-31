@@ -13,12 +13,14 @@ namespace ProjectFINAL.Controllers.API
         private readonly PlannedWateringService plannedWateringService;
         private readonly PlantService plantService;
         private readonly WateringHistoryService wateringHistoryService;
+        private readonly UserService userService;
         public ApiController()
         {
             plantService = new PlantService();
             humidityHistoryService = new HumidityHistoryService();
             plannedWateringService = new PlannedWateringService();
             wateringHistoryService = new WateringHistoryService();
+            userService = new UserService();
         }
         [HttpGet]
         public JsonResult GetCurrentHumidityRate(int plantId)
@@ -84,6 +86,11 @@ namespace ProjectFINAL.Controllers.API
                     jsonStr += ",";
             }
             return Json(jsonStr, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GetUsers()
+        {
+            var result = userService.GetActiveUsers();
+            return Json(new { json = result },JsonRequestBehavior.AllowGet);
         }
 
     }

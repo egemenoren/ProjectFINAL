@@ -11,6 +11,13 @@ namespace Project.Business
 {
     public class WateringHistoryService : BaseService<WateringHistory>
     {
+        public ServiceResult<DateTime> GetLastWateringTime(int plantId)
+        {
+            var result = _repo.GetAll(x => x.PlantId == plantId);
+            if (result != null && result.Count() > 0)
+                return new ServiceResult<DateTime>(result.FirstOrDefault().CreatedTime);
+            return new ServiceResult<DateTime>(null);
+        }
         public ServiceResult<bool> CheckIfHasBeenWatered(int plantId)
         {
             DateTime date = DateTime.Now.AddDays(-1);

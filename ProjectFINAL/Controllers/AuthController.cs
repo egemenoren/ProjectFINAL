@@ -45,6 +45,7 @@ namespace ProjectFINAL.Controllers
                 FormsAuthentication.SetAuthCookie(entity.Data.Mail, false);
                 Session["UserId"] = entity.Data.Id;
                 Session["NameSurname"] = entity.Data.Name + " " + entity.Data.Surname;
+                BaseController.currentUser = user;
                 return RedirectToAction("Index","Home");
             }
             TempData["ErrMsg"] = "Girdiğiniz güvenlik sorusu cevabı yanlış.";
@@ -87,6 +88,13 @@ namespace ProjectFINAL.Controllers
         public ActionResult Login(string Email, string password)
         {
             var result = userService.Login(Email, password);
+            if (result.Data.IsFirstLogin == true)
+            {
+                Session["Id"] = result.Data.Id;
+                TempData["Success"] = "İlk girişinizi başarıyla yaptınız. Bu alanda güvenlik için şifrenizi ve güvenlik sorunuzun cevabını belirleyin.";
+                return RedirectToAction("Firstlogin", new { id = result.Data.Id });
+
+            }
             if (result.HasError)
             {
                 ViewBag.ErrMsg = result.ResultMessage;
@@ -98,20 +106,12 @@ namespace ProjectFINAL.Controllers
 
                 return View();
             }
-            if (result.Data.IsFirstLogin == true)
-            {
-                Session["Id"] = result.Data.Id;
-                TempData["Success"] = "İlk girişinizi başarıyla yaptınız. Bu alanda güvenlik için şifrenizi ve güvenlik sorunuzun cevabını belirleyin.";
-                return RedirectToAction("Firstlogin", new { id = result.Data.Id });
-
-            }
+            
             
            
             TempData["Success"] = result.ResultMessage;
             FormsAuthentication.SetAuthCookie(Email, false);
-            Session["User"] = result.Data;
-            Session["UserId"] = result.Data.Id;
-            Session["NameSurname"] = result.Data.Name + " " + result.Data.Surname;
+            BaseController.currentUser = result.Data;
             return RedirectToAction("Index", "Home");
         }
         [Authorize]
@@ -119,6 +119,7 @@ namespace ProjectFINAL.Controllers
         {
             Session.Abandon();
             FormsAuthentication.SignOut();
+            BaseController.currentUser = null;
             return RedirectToAction("Login");
         }
     }

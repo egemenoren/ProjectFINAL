@@ -5,11 +5,13 @@
 
 
 
-<div class="content-wrapper">
     <div class="d-flex justify-content-center">
         <div class="col-md-6 mt-5">
             <form action="/User/Profile" method="post">
                 @Html.HiddenFor(x => x.Id)
+                @Html.HiddenFor(x=>x.IsAdmin)
+                @Html.HiddenFor(x=>x.LastLoginIP)
+                @Html.HiddenFor(x=>x.IsFirstLogin)
                 <div class="card card-success">
                     <div class="card-header">
                         <h3 class="card-title">Profil Düzenle</h3>
@@ -63,7 +65,6 @@
             </form>
         </div>
     </div>
-</div>
 <script src="~/Content/AdminLTE/plugins/jquery/jquery.min.js"></script>
 <script>
 

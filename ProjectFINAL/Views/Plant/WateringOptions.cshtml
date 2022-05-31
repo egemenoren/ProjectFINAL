@@ -1,4 +1,6 @@
-﻿@model Project.Entity.PlannedWaterings
+﻿@using ProjectFINAL.Helper;
+@using Project.Entity;
+@model Project.Entity.PlannedWaterings
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     var wateringType = Model.WateringType;
@@ -6,17 +8,17 @@
     string isHumidity = (Model.WateringType == Project.Entity.WateringType.Humidity).ToString().ToLower();
 }
 
+<link rel="stylesheet" href="~/Content/AdminLTE/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
 
-
-    <div class="d-flex justify-content-center">
-        <div class="col-md-6 mt-5">
-            <form action="/Plant/WateringOptions" method="post" id="optionsForm">
-                <div class="card card-success">
-                    <div class="card-header">
-                        <h3 class="card-title">Sulama Seçenekleri</h3>
-                    </div>
-                    <input type="hidden" name="Id" id="Id" value="@Model.Id" />
-                    @Html.HiddenFor(x => x.PlantId)
+<div class="d-flex justify-content-center">
+    <div class="col-md-6 mt-5">
+        <form action="/Plant/WateringOptions" method="post" id="optionsForm">
+            <div class="card card-success">
+                <div class="card-header">
+                    <h3 class="card-title">Sulama Seçenekleri</h3>
+                </div>
+                <input type="hidden" name="Id" id="Id" value="@Model.Id" />
+                @Html.HiddenFor(x => x.PlantId)
                 <div class="card-body">
 
                     <div class="form-group">
@@ -29,16 +31,36 @@
                     <div id="hourBlock">
                         <div class="form-group">
                             <label for="Period">Periyot</label>
-                            @Html.EnumDropDownListFor(x => x.Period, "Birini Seçin", new { @class = "custom-select rounded-0", required = true })
+                            @{
+                                var periodList = Helper.GetEnumValuesAndDescriptions<Period>();
+                            }
+                            <select class="custom-select rounded-0">
+                                @foreach (var item in periodList)
+                                {
+                                    <option value="@item.Value">@item.Key</option>
+                                }
+                            </select>
+                            @*@Html.EnumDropDownListFor(x => x.Period, "Birini Seçin", new { @class = "custom-select rounded-0", required = true })*@
                         </div>
-                        <label>Sulama saati giriniz</label>
-                        <div class="input-group">
 
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                        <div class="bootstrap-timepicker">
+                            <div class="form-group">
+                                <label>Sulama saati giriniz</label>
+                                @{ 
+                                    
+                                }
+                                <div class="input-group date" id="timepicker" data-target-input="nearest">
+                                    <input type="text" class="form-control datetimepicker-input" 
+                                           data-target="#timepicker" 
+                                           name="WateringHour" 
+                                           value="@(Model.WateringHour.HasValue ? (Model.WateringHour.Value.Hour + ":" + Model.WateringHour.Value.Minute):"")" />
+                                    <div class="input-group-append" data-target="#timepicker" data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="far fa-clock"></i></div>
+                                    </div>
+                                </div>
+                                <!-- /.input group -->
                             </div>
-
-                            @Html.TextBoxFor(x => x.WateringHour, new { type = "text", @class = "form-control", @data_inputmask_alias = "datetime", id = "WateringHour", name = "WateringHour", value=(Model.WateringHour.Value.Hours + ":" + Model.WateringHour.Value.Minutes), @data_inputmask_inputformat = "HH:MM", @data_mask = "", @inputmode = "numeric", required = true })
+                            <!-- /.form group -->
                         </div>
                     </div>
                     <div id="humidityBlock" class="form-group" style="display:none">
@@ -55,25 +77,29 @@
 
                     <!-- /input-group -->
                 </div>
-                    <!-- /.card-body -->
-                    <div class="card-footer text-right">
-                        <button type="submit" class="btn btn-info">Kaydet</button>
-                        <div class="btn btn-danger"><a href="/Home/Index" style="color:white">Vazgeç</a></div>
-                    </div>
+                <!-- /.card-body -->
+                <div class="card-footer text-right">
+                    <button type="submit" class="btn btn-info">Kaydet</button>
+                    <div class="btn btn-danger"><a href="/Home/Index" style="color:white">Vazgeç</a></div>
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
+</div>
 <script src="~/Content/AdminLTE/plugins/jquery/jquery.min.js"></script>
 <script src="~/Content/AdminLTE/plugins/jquery-validation/jquery.validate.min.js"></script>
 <script src="~/Content/AdminLTE/plugins/jquery-validation/additional-methods.min.js"></script>
+<script src="~/Content/AdminLTE/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
 <script>
 
     $(document).ready(function () {
         if (@isHumidity) {
-          
+
             $("#typeRadio").click();
         }
+        $('#timepicker').datetimepicker({
+            format: 'HH:mm'
+        })
     })
 
     $("#typeRadio").on('click', function () {

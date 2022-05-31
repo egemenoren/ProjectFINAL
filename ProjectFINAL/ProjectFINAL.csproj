@@ -4477,7 +4477,6 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Auth\Login.cshtml" />
-    <Content Include="Views\Home\MyPlants.cshtml" />
     <Content Include="Views\Management\AddUser.cshtml" />
     <Content Include="Views\Auth\FirstLogin.cshtml" />
     <Content Include="Views\Auth\ValidateIpAdress.cshtml" />
@@ -4486,6 +4485,7 @@
     <Content Include="Views\Plant\WateringOptions.cshtml" />
     <Content Include="Views\Plant\PlannedWaterings.cshtml" />
     <Content Include="Views\User\Profile.cshtml" />
+    <Content Include="Views\Plant\AddPlant.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
