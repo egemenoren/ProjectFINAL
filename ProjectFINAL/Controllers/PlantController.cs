@@ -48,7 +48,7 @@ namespace ProjectFINAL.Controllers
             var result = plantService.GetById(id);
             ViewBag.LastWateredTime = new WateringHistoryService().GetLastWateringTime(id);
             var last24hour = DateTime.Now.AddHours(-24);
-            ViewBag.WateringTimeInToday = new WateringHistoryService().FindBy(x => x.CreatedTime > last24hour && x.CreatedTime < DateTime.Now);
+            ViewBag.WateringTimeInToday = new WateringHistoryService().FindBy(x => x.CreatedTime > last24hour && x.CreatedTime < DateTime.Now && x.PlantId == id);
             return View(result.Data);
         }
         public ActionResult WateringOptions(int id)

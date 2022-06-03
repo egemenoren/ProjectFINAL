@@ -11,7 +11,7 @@ namespace Project.Entity
         public int? LimitHumidityRate { get; set; }
         public DateTime? WateringHour { get; set; }
         public Period? Period { get; set; }
-        public WateringType? WateringType { get; set; }
+        public WateringType? WateringType { get; set; } = Entity.WateringType.Not_Set;
         public short? WateringSecond { get; set; }
     }
 }

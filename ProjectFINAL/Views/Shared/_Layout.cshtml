@@ -51,10 +51,7 @@
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="../../index3.html" class="nav-link">Home</a>
-                </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                    <a href="#" class="nav-link">Contact</a>
+                    <a href="/" class="nav-link">Anasayfa</a>
                 </li>
             </ul>
 
@@ -63,7 +60,7 @@
         </nav>
         <aside class="main-sidebar sidebar-dark-primary elevation-4" id="main-sidebar" style="height:100vh">
             <!-- Brand Logo -->
-            <a href="~/Content/AdminLTE/index3.html" class="brand-link">
+            <a href="/" class="brand-link">
                 <img src="~/Content/AdminLTE/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
 
                 <span class="brand-text font-weight-light">UKSS</span>
@@ -98,44 +95,54 @@
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
-                        with font-awesome or any other icon font library -->
+    with font-awesome or any other icon font library -->
                         @if (user.IsAdmin)
                         {
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-user-lock"></i>
-                                <p>
-                                    Yönetim Paneli
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="/Management/AddUser" class="nav-link">
-                                        <i class="far fa-circle nav-icon text-teal"></i>
-                                        <p>Kullanıcı Ekle</p>
-                                    </a>
-                                </li>
-                            </ul>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="/Management/UserList" class="nav-link">
-                                        <i class="far fa-circle nav-icon text-teal"></i>
-                                        <p>Kullanıcıları Görüntüle</p>
-                                    </a>
-                                </li>
-                            </ul>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="/Plant/AddPlant" class="nav-link">
-                                        <i class="far fa-circle nav-icon text-teal"></i>
-                                        <p>Bitki Tanımla</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fas fa-user-lock"></i>
+                                    <p>
+                                        Yönetim Paneli
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="/Management/AddUser" class="nav-link">
+                                            <i class="far fa-circle nav-icon text-teal"></i>
+                                            <p>Kullanıcı Ekle</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="/Management/UserList" class="nav-link">
+                                            <i class="far fa-circle nav-icon text-teal"></i>
+                                            <p>Kullanıcıları Görüntüle</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="/Plant/AddPlant" class="nav-link">
+                                            <i class="far fa-circle nav-icon text-teal"></i>
+                                            <p>Bitki Tanımla</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
                         }
                         <li class="nav-header">KULLANICI PANELİ</li>
+                        <li class="nav-item">
+                            <a href="/" class="nav-link">
+                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                                <p>
+                                    Dashboard
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-divider"><hr /></li>
+                        <li class="nav-header">BİTKİLER</li>
                         @foreach (var plant in plants)
                         {
                             <li class="nav-item">
@@ -170,34 +177,34 @@
                         }
 
                         @*<li class="nav-item">
-                            <a href="javascript:;" class="nav-link">
-                                    <i class="nav-icon fa fa-tree"></i>
-                                    <p>
-                                        Bitki (Bitki-Adı)
-                                        <i class="fas fa-angle-left right"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="/Plant/Status" class="nav-link">
-                                            <i class="far fa-circle nav-icon text-warning"></i>
-                                            <p>Bitki Durumu</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="/Plant/WateringOptions" class="nav-link">
-                                            <i class="far fa-circle nav-icon text-warning"></i>
-                                            <p>Sulama Ayarları</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="/Plant/PlannedWaterings" class="nav-link">
-                                            <i class="far fa-circle nav-icon text-warning"></i>
-                                            <p>Planlı Sulamalar</p>
-                                        </a>
-                                    </li>>
-                                </ul>
-                            </li>*@
+        <a href="javascript:;" class="nav-link">
+                <i class="nav-icon fa fa-tree"></i>
+                <p>
+                    Bitki (Bitki-Adı)
+                    <i class="fas fa-angle-left right"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="/Plant/Status" class="nav-link">
+                        <i class="far fa-circle nav-icon text-warning"></i>
+                        <p>Bitki Durumu</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/Plant/WateringOptions" class="nav-link">
+                        <i class="far fa-circle nav-icon text-warning"></i>
+                        <p>Sulama Ayarları</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/Plant/PlannedWaterings" class="nav-link">
+                        <i class="far fa-circle nav-icon text-warning"></i>
+                        <p>Planlı Sulamalar</p>
+                    </a>
+                </li>>
+            </ul>
+        </li>*@
                         <li class="nav-item">
                             @*KULLANICI BİTKİ OLUŞTURDUKÇA BURASI TEKRAR EDECEK. DİNAMİKLEŞTİRİLECEK İD'SİNE GÖRE' *@
                             <a href="#" class="nav-link">
@@ -323,7 +330,7 @@
     <script>
 
         $(".main-sidebar").css("height", "100vh");
-                                                                                                                         
+
     </script>
     @RenderSection("Script", required: false)
 </body>

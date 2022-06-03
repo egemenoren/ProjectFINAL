@@ -1,5 +1,180 @@
-﻿@{
+﻿@using ProjectFINAL.Helper;
+@using Project.Entity;
+@model ProjectFINAL.ViewModels.IndexViewModel
+@{
     ViewBag.Title = "Home Page";
 }
 
 
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-6 mt-5">
+                <div class="card">
+                    <div class="card-header border-0">
+                        <div class="d-flex justify-content-between">
+                            <h3 class="card-title">Hava Durumu</h3>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="info-box">
+                                    <span class="info-box-icon bg-info"><i class="fa-solid fa-temperature-low"></i></span>
+
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">@Model.Weather.current.condition.text</span>
+                                        <span class="info-box-number">@Model.Weather.current.temp_c °C</span>
+
+                                    </div>
+                                    <div class="icon">
+                                        <span class="info-box-content float-right"><img class="img-fluid" width="50" src="@Model.Weather.current.condition.icon" /></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="info-box">
+                                    <span class="info-box-icon bg-info"><i class="fa-solid fa-droplet"></i></span>
+
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Nem Oranı</span>
+                                        <span class="info-box-number">@Model.Weather.current.humidity%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="info-box">
+                                    <span class="info-box-icon bg-info"><i class="fa-solid fa-face-grin-beam-sweat"></i></span>
+
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Hissedilen Sıcaklık</span>
+                                        <span class="info-box-number">@Model.Weather.current.feelslike_c °C</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="info-box">
+                                    <span class="info-box-icon bg-info"><i class="fa-solid fa-wind"></i></span>
+
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Rüzgar Hızı</span>
+                                        <span class="info-box-number">@Model.Weather.current.wind_kph Km/saat</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+                <!-- /.card -->
+
+                <div class="card">
+                    <div class="card-header border-0">
+                        <h3 class="card-title">Bitkiler</h3>
+                        <div class="card-tools">
+                            <a href="#" class="btn btn-tool btn-sm">
+                                <i class="fas fa-bars"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-body table-responsive p-0">
+                        <table class="table table-striped table-valign-middle">
+                            <thead>
+                                <tr>
+                                    <th>Bitki</th>
+                                    <th>Son Sulanma</th>
+                                    <th>Anlık Nem</th>
+                                    <th>Sulama Ayarı</th>
+                                    <th>Detay</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{ 
+                                    var list = Helper.GetEnumValuesAndDescriptions<WateringType>();
+                                    
+                                }
+                                @foreach (var item in Model.PlantInformation)
+                                {
+                                <tr>
+                                    <td>
+
+                                        @item.Plant.Name
+                                    </td>
+                                    <td>@(item.LastWateredTime.ToString() == "" ? "Sulanmadı" : item.LastWateredTime.ToString() )</td>
+                                    <td>
+                                        @item.CurrentHumidityRate
+                                    </td>
+                                    <td>
+                                        @list.Find(x => x.Value == (int)item.WateringType).Key
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("Status","Plant", new {id=item.Plant.Id })" class="text-muted">
+                                           <i class="fas fa-search"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col-md-6 -->
+            <div class="col-lg-6 mt-5">
+                <div class="small-box bg-warning">
+                    <div class="inner">
+                        <h3>@ViewBag.TotalPlantCount</h3>
+
+                        <p>Toplam Bitki Sayısı</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa-solid fa-seedling"></i>
+                    </div>
+                </div>
+                <div class="small-box bg-warning">
+                    <div class="inner">
+                        <h3>@ViewBag.TotalAutomaticWatering</h3>
+
+                        <p>Toplam Otomatik Sulama Sayısı</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa-solid fa-faucet-drip"></i>
+                    </div>
+                </div>
+                <!-- /.card -->
+
+                <div class="card">
+                    <div class="card-header border-0">
+                        <h3 class="card-title">Günlük Veriler</h3>
+                        <div class="card-tools">
+                            <a href="#" class="btn btn-sm btn-tool">
+                                <i class="fas fa-bars"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-success"><i class="far fa-flag"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Bugün Sulanan</span>
+                                <span class="info-box-number">@ViewBag.TodayWatered</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.d-flex -->
+                        <!-- /.d-flex -->
+                    </div>
+                </div>
+            </div>
+            <!-- /.col-md-6 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</div>

@@ -13,7 +13,9 @@ namespace Project.Data.Repository
     {
         public HumidityHistory GetLastDataByParameter(Expression<Func<HumidityHistory, bool>> filter = null)
         {
-            return _dbSet.Where(filter).OrderByDescending(x => x.CreatedTime).First();
+            if (_dbSet.Where(filter).OrderByDescending(x => x.CreatedTime).Any())
+                return _dbSet.Where(filter).OrderByDescending(x => x.CreatedTime).First();
+            return null;
         }
         public List<object> LastSixMonthsData(int plantId)
         {
