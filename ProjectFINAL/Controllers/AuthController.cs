@@ -46,9 +46,7 @@ namespace ProjectFINAL.Controllers
                 userService.SetNewIpAdress(entity.Data);
                 TempData["Success"] = entity.ResultMessage;
                 FormsAuthentication.SetAuthCookie(entity.Data.Mail, false);
-                Session["UserId"] = entity.Data.Id;
-                Session["NameSurname"] = entity.Data.Name + " " + entity.Data.Surname;
-                BaseController.currentUser = user;
+                BaseController.currentUser = entity.Data;
                 return RedirectToAction("Index", "Home");
             }
             TempData["ErrMsg"] = "Girdiğiniz güvenlik sorusu cevabı yanlış.";
@@ -83,8 +81,7 @@ namespace ProjectFINAL.Controllers
             }
             TempData["Success"] = "Bilgileriniz başarıyla kaydedildi";
             FormsAuthentication.SetAuthCookie(result.Data.Mail, false);
-            Session["UserId"] = result.Data.Id;
-            Session["NameSurname"] = result.Data.Name + " " + result.Data.Surname;
+            BaseController.currentUser = result.Data;
             return RedirectToAction("Index", "Home");
         }
         

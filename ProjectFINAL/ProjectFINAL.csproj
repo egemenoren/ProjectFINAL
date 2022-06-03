@@ -166,6 +166,7 @@
     <Compile Include="Controllers\Management\ManagementController.cs" />
     <Compile Include="Controllers\PlantController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="DTO\PlantApiResponse.cs" />
     <Compile Include="DTO\PlantDTO.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

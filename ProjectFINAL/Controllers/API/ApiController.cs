@@ -1,4 +1,5 @@
 ﻿using Project.Business;
+using ProjectFINAL.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,9 +51,11 @@ namespace ProjectFINAL.Controllers.API
         public JsonResult GetHumidityAndTemperatureToDb(double temperature, double humidityRate, int plantId)
         {
             humidityHistoryService.GetCurrentHumidityFromNodeMCU(humidityRate, plantId, temperature);
+
             var wateringTime = plannedWateringService.GetByPlantId(plantId);
             var checkNeedsToBeWatered = plannedWateringService.CheckNeedsToBeWatered(plantId, humidityRate);
-            if(checkNeedsToBeWatered.Data)
+            var plant = plantService.GetById(plantId);
+            if (checkNeedsToBeWatered.Data)
             {
                 var wateringHistory = wateringHistoryService.Add(new Project.Entity.WateringHistory
                 {
@@ -64,10 +67,10 @@ namespace ProjectFINAL.Controllers.API
                 if (wateringHistory.HasError)
                     return Json(new { Error = wateringHistory.ResultMessage });
             }
-            
+
             if (checkNeedsToBeWatered.ResultCode == Project.Business.Middleware.ServiceResultCode.Success)
-                return Json(new { isNeedWater = checkNeedsToBeWatered.Data, waterTime = wateringTime.Data.WateringSecond }, JsonRequestBehavior.AllowGet);
-            return Json(new { isNeedWater = false, waterTime = 0 }, JsonRequestBehavior.AllowGet);
+                return Json(new { isNeedWater = checkNeedsToBeWatered.Data, waterTime = wateringTime.Data.WateringSecond,pumpAddress = plant.Data.PumpCardAddress }, JsonRequestBehavior.AllowGet);
+            return Json(new { isNeedWater = false, waterTime = 0 , pumpAddress = plant.Data.PumpCardAddress }, JsonRequestBehavior.AllowGet);
             //TODO: Eğer bitkinin sulama saati gelmiş ise veya nem oranı gerekenin altında ise sulamayı başlat.
 
         }
@@ -76,21 +79,22 @@ namespace ProjectFINAL.Controllers.API
         public JsonResult GetUsersPlants(int userId)
         {
             var result = plantService.GetUsersPlantsByUserId(userId);
-            int i = 0;
-            string jsonStr = "";
+            var list = new List<PlantApiResponse>();
             foreach (var item in result.ListData)
             {
-                i++;
-                jsonStr += item.Id.ToString();
-                if (i != result.ListData.Count())
-                    jsonStr += ",";
+                list.Add(new PlantApiResponse
+                {
+                    PlantId = item.Id,
+                    HumidityCardAddress =  item.HumidityCardAddress,
+                    PumpCardAddress = item.PumpCardAddress
+                });
             }
-            return Json(jsonStr, JsonRequestBehavior.AllowGet);
+            return Json(new { list = list }, JsonRequestBehavior.AllowGet);
         }
         public JsonResult GetUsers()
         {
             var result = userService.GetActiveUsers();
-            return Json(new { json = result },JsonRequestBehavior.AllowGet);
+            return Json(new { json = result }, JsonRequestBehavior.AllowGet);
         }
 
     }

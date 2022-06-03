@@ -96,7 +96,7 @@
                                 <div class="info-box-content">
                                     <span class="info-box-text">Son Sulanma Tarihi</span>
                                     @{
-                                        var wateringDate = ViewBag.Data != null && ViewBag.LastWateredTime.Data.Year != 1 ? ViewBag.LastWateredTime.Data.ToString() : "Sulanmadı";
+                                        var wateringDate = ViewBag.LastWateredTime.Data != null && ViewBag.LastWateredTime.Data.Year != 1 ? ViewBag.LastWateredTime.Data.ToString() : "Sulanmadı";
                                     }
                                     <span class="info-box-number">@wateringDate</span>
                                 </div>
@@ -190,7 +190,7 @@
                 }
             )
 
-            var updateInterval = 500 //Fetch data ever x milliseconds
+            var updateInterval = 2000 //Fetch data ever x milliseconds
             var realtime = 'on' //If == to on then fetch data every x seconds. else stop fetching
             function update() {
                 getCurrentHumidity();
@@ -271,7 +271,7 @@
 
                         /*options: { ...}*/
                     });
-                    $("#bar-chart").hide();
+                    $("#bar-chart").hide(); //Yükleniyor kısmı
                    
 
                     return months;

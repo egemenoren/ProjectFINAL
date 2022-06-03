@@ -70,7 +70,6 @@ namespace ProjectFINAL.Controllers
         [HttpPost]
         public ActionResult WateringOptions(PlannedWaterings model)
         {
-            model.WateringHour = model.WateringHour.Value;
             var result = plannedWateringService.Update(model);
             if (!result.HasError)
             {

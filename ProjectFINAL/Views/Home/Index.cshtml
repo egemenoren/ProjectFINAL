@@ -104,7 +104,7 @@
 
                                         @item.Plant.Name
                                     </td>
-                                    <td>@(item.LastWateredTime.ToString() == "" ? "Sulanmadı" : item.LastWateredTime.ToString() )</td>
+                                    <td>@(item.LastWateredTime.ToString() ?? "Sulanmadı")</td>
                                     <td>
                                         @item.CurrentHumidityRate
                                     </td>

@@ -10,5 +10,7 @@ namespace Project.Entity
     {
         public string Name { get; set; }
         public int UserId { get; set; }
+        public string HumidityCardAddress { get; set; }
+        public string PumpCardAddress { get; set; }
     }
 }
