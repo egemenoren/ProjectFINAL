@@ -18,6 +18,18 @@
                         </div>
                         @Html.TextBoxFor(x => x.Name, new { placeholder = "Bitki Adı", @class = "form-control", required = true })
                     </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                        </div>
+                        @Html.TextBoxFor(x => x.PumpCardAddress, new { placeholder = "Pompa Adresi", @class = "form-control", required = true })
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                        </div>
+                        @Html.TextBoxFor(x => x.HumidityCardAddress, new { placeholder = "Sensör Adresi", @class = "form-control", required = true })
+                    </div>
 
                     <select class="users" id="UserId" name="UserId">
                     </select>

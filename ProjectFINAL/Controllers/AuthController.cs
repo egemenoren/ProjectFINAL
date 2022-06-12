@@ -46,7 +46,7 @@ namespace ProjectFINAL.Controllers
                 userService.SetNewIpAdress(entity.Data);
                 TempData["Success"] = entity.ResultMessage;
                 FormsAuthentication.SetAuthCookie(entity.Data.Mail, false);
-                BaseController.currentUser = entity.Data;
+                Session["Id"] = entity.Data.Id;
                 return RedirectToAction("Index", "Home");
             }
             TempData["ErrMsg"] = "Girdiğiniz güvenlik sorusu cevabı yanlış.";
@@ -81,7 +81,7 @@ namespace ProjectFINAL.Controllers
             }
             TempData["Success"] = "Bilgileriniz başarıyla kaydedildi";
             FormsAuthentication.SetAuthCookie(result.Data.Mail, false);
-            BaseController.currentUser = result.Data;
+            Session["Id"] = result.Data.Id;
             return RedirectToAction("Index", "Home");
         }
         
@@ -114,8 +114,8 @@ namespace ProjectFINAL.Controllers
             else
             {
                 TempData["Success"] = result.ResultMessage;
+                Session["Id"] = result.Data.Id;
                 FormsAuthentication.SetAuthCookie(Email, true);
-                BaseController.currentUser = result.Data;
                 return RedirectToAction("Index", "Home");
             }
             return View();
@@ -126,7 +126,7 @@ namespace ProjectFINAL.Controllers
         {
             Session.Abandon();
             FormsAuthentication.SignOut();
-            BaseController.currentUser = null;
+            Session["Id"] = null;
             return RedirectToAction("Login");
         }
     }

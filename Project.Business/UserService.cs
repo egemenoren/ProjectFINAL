@@ -61,6 +61,8 @@ namespace Project.Business
                 return new ServiceResult<User>(ServiceResultCode.RecordNotFound, "Kullanıcı adı veya şifre hatalı.");
             if (_validation.IsAnotherIp(entity))
                 return new ServiceResult<User>(ServiceResultCode.DifferentIPException, "Farklı bir IP Adresiyle giriş yapmayı deniyorsunuz. Lütfen hesabınızı doğrulayın.", entity);
+            if (entity.Status == DataStatus.Passive)
+                return new ServiceResult<User>(ServiceResultCode.RecordNotFound, "Kullanıcı Deaktive Edilmiş.");
             return new ServiceResult<User>(entity);
         }
         public ServiceResult<User> FirstLogin(int id, string password, string questionAnswer)
@@ -85,6 +87,34 @@ namespace Project.Business
         {
             var result = _repo.GetAll(x => x.Status == DataStatus.Active).ToList();
             return new ServiceResult<List<User>>(result);
+        }
+        public ServiceResult<bool> DeactiveUser(int id)
+        {
+            try
+            {
+                var message = "";
+                var user = _repo.GetById(id);
+                if (user.Status == DataStatus.Active)
+                {
+                    user.Status = DataStatus.Passive;
+                    message = "Kullanıcı başarıyla deaktive edildi.";
+                }
+                else
+                {
+                    user.Status = DataStatus.Active;
+                    message = "Kullanıcı başarıyla aktive edildi";
+                }
+                _repo.Update(user);
+                return new ServiceResult<bool>(ServiceResultCode.Success,message,true);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult<bool>(ServiceResultCode.Generic, ex.Message, false);
+            }
+
+
+
+
         }
     }
 }

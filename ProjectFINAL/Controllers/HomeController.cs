@@ -47,7 +47,7 @@ namespace ProjectFINAL.Controllers
         {
             
 
-            var allPlants = plantService.GetPlantListById(currentUser.Id);
+            var allPlants = plantService.GetPlantListById((int)Session["Id"]);
             var plantIdList = new List<int>();
             foreach(var item in allPlants.Data)
             {
@@ -73,7 +73,7 @@ namespace ProjectFINAL.Controllers
                 PlantInformation = new List<DTO.PlantDTO>()
             };
 
-            var usersPlants = new PlantService().GetPlantListById(currentUser.Id);
+            var usersPlants = new PlantService().GetPlantListById((int)Session["Id"]);
             foreach (var item in usersPlants.Data)
             {
                 var lastWatered = wateringHistoryService.GetLastWateringTime(item.Id);

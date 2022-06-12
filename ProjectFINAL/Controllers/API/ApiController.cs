@@ -35,6 +35,11 @@ namespace ProjectFINAL.Controllers.API
             var result = humidityHistoryService.GetLastSixMonthsHumidity(plantId);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult DeactiveUser(int id)
+        {
+            var result = userService.DeactiveUser(id);
+            return Json(new { json = result }, JsonRequestBehavior.AllowGet);
+        }
         public JsonResult GetRealTimeData(int plantId)
         {
             var result = humidityHistoryService.GetLastHoundredHumidityData(plantId);

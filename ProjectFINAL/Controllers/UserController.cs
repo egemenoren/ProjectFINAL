@@ -32,7 +32,7 @@ namespace ProjectFINAL.Controllers
             if (result.ResultCode == Project.Business.Middleware.ServiceResultCode.Success)
             {
                 TempData["Success"] = "Başarıyla düzenlendi";
-                currentUser = user;
+                Session["Id"] = user.Id;
                 return View(user);
             }
             else

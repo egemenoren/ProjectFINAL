@@ -37,7 +37,7 @@
 @{
 
 
-    var user = BaseController.currentUser;
+    var user = new UserService().GetById((int)Session["Id"]).Data;
     var checkIfManager = user.IsAdmin; // TEST ORTAMI İÇİN OTOMATİK TRUE YAPILDI
     var plants = new PlantService().GetPlantListById(user.Id).Data;
 
